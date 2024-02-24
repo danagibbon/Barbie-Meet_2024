@@ -1,5 +1,5 @@
 ---
-title: "Barbie-Meet-2024-results"
+title: "Barbie Meet 2024 results"
 author: "Dana Gibbon"
 date: "`r Sys.Date()`"
 output: 
@@ -31,7 +31,13 @@ team.score <- function(df, event){
 }
 ```
 
+# The Sky's the Limit - Barbie Themed Adult Gymastics Meet
+
+Hosted by the [Seattle Seals](https://www.seattlesealsgymnasticsclub.com/home) who are a [NAIGC](https://naigc.org/) Gymnastics Club. 
+
 # Results
+
+Results: [https://danagibbon.github.io/Barbie-Meet_2024/2024-Barbie-Meet-results.html](https://danagibbon.github.io/Barbie-Meet_2024/2024-Barbie-Meet-results.html)
 
 ## Xcel Silver {.tabset .tabset-fade}
 
