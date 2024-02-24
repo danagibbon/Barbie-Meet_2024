@@ -1,5 +1,5 @@
 ---
-title: "Barbie Meet 2024 results"
+title: "The Sky's the Limit - A Barbie Themed Adult Gymastics Meet"
 author: "Dana Gibbon"
 date: "`r Sys.Date()`"
 output: 
@@ -31,7 +31,6 @@ team.score <- function(df, event){
 }
 ```
 
-# The Sky's the Limit - Barbie Themed Adult Gymastics Meet
 
 Hosted by the [Seattle Seals](https://www.seattlesealsgymnasticsclub.com/home) who are a [NAIGC](https://naigc.org/) Gymnastics Club. 
 
@@ -41,15 +40,10 @@ Results: [https://danagibbon.github.io/Barbie-Meet_2024/2024-Barbie-Meet-results
 
 ## Xcel Silver {.tabset .tabset-fade}
 
-### Raw Results
-
 ```{r}
 # read in data
 xs.results <- read.csv(here::here("data","Silver-results.csv")) %>%
     mutate(across(c(Team),factor))
-
-datatable(xs.results, extensions = 'Buttons',
-          options = list(dom = 'Bfrtip', buttons = c('copy', 'csv', 'excel', 'pdf', 'print')))
 
 ```
 
@@ -146,17 +140,20 @@ datatable(xs.team.score, extensions = 'Buttons',
 
 ```
 
+### Raw Results
+
+```{r}
+datatable(xs.results, extensions = 'Buttons',
+          options = list(dom = 'Bfrtip', buttons = c('copy', 'csv', 'excel', 'pdf', 'print')))
+
+```
 
 ## Xcel Platinum {.tabset .tabset-fade}
-
-### Raw Results
 
 ```{r}
 # read in data
 xp.results <- read.csv(here::here("data","Platinum-results.csv"))
 
-datatable(xp.results, extensions = 'Buttons',
-          options = list(dom = 'Bfrtip', buttons = c('copy', 'csv', 'excel', 'pdf', 'print')))
 ```
 
 ### Vault
@@ -251,16 +248,19 @@ datatable(xp.team.score, extensions = 'Buttons',
 
 ```
 
-## Level 8 {.tabset .tabset-fade}
-
 ### Raw Results
+
+```{r}
+datatable(xp.results, extensions = 'Buttons',
+          options = list(dom = 'Bfrtip', buttons = c('copy', 'csv', 'excel', 'pdf', 'print')))
+```
+
+## Level 8 {.tabset .tabset-fade}
 
 ```{r}
 # read in data
 l8.results <- read.csv(here::here("data","Level-8-results.csv"))
 
-datatable(l8.results, extensions = 'Buttons',
-          options = list(dom = 'Bfrtip', buttons = c('copy', 'csv', 'excel', 'pdf', 'print')))
 ```
 
 ### Vault
@@ -353,3 +353,11 @@ datatable(l8.team.score, extensions = 'Buttons',
           options = list(dom = 'Bfrtip', buttons = c('copy', 'csv', 'excel', 'pdf', 'print')))
 
 ```
+
+### Raw Results
+
+```{r}
+datatable(l8.results, extensions = 'Buttons',
+          options = list(dom = 'Bfrtip', buttons = c('copy', 'csv', 'excel', 'pdf', 'print')))
+```
+
