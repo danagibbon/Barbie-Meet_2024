@@ -1,0 +1,349 @@
+---
+title: "Barbie-Meet-2024-results"
+author: "Dana Gibbon"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    collapsed: true
+    toc_depth: 3
+    code_folding: hide
+    theme: sandstone
+    number_sections: false
+    highlight: zenburn
+---
+
+```{r setup, echo=FALSE, message=FALSE, results='markup'}
+knitr::opts_chunk$set(echo = TRUE)
+library(dplyr)
+library(here)
+library(ggplot2)
+library(DT)
+
+# functions
+team.score <- function(df, event){
+  top3.df <- df %>% 
+    group_by(Team) %>% select(Team, event) %>%
+    slice_max(order_by = !!as.name(event), n = 3) %>%
+    summarise(event = sum(!!as.name(event)))
+  return(top3.df)
+}
+```
+
+# Results
+
+## Xcel Silver {.tabset .tabset-fade}
+
+### Raw Results
+
+```{r}
+# read in data
+xs.results <- read.csv(here::here("data","Silver-results.csv")) %>%
+    mutate(across(c(Team),factor))
+
+datatable(xs.results, extensions = 'Buttons',
+          options = list(dom = 'Bfrtip', buttons = c('copy', 'csv', 'excel', 'pdf', 'print')))
+
+```
+
+
+### Vault
+
+```{r xs.vault}
+xs.vault <- xs.results %>%
+  select(Athlete, Team, Vault) %>%
+  arrange(desc(Vault)) %>% 
+  mutate(Rank = dense_rank(desc(Vault))) %>%
+  relocate(Rank, Team)
+
+datatable(xs.vault, extensions = 'Buttons',
+          options = list(dom = 'Bfrtip', buttons = c('copy', 'csv', 'excel', 'pdf', 'print')))
+```
+
+### Uneven Bars
+
+```{r xs.bars}
+xs.bars <- xs.results %>%
+  select(Athlete, Team, Bars) %>%
+  arrange(desc(Bars)) %>% 
+  mutate(Rank = dense_rank(desc(Bars))) %>%
+  relocate(Rank, Team)
+
+datatable(xs.bars, extensions = 'Buttons',
+          options = list(dom = 'Bfrtip', buttons = c('copy', 'csv', 'excel', 'pdf', 'print')))
+```
+
+### Balance Beam
+
+```{r xs.beam}
+xs.Beam <- xs.results %>%
+  select(Athlete, Team, Beam) %>%
+  arrange(desc(Beam)) %>% 
+  mutate(Rank = dense_rank(desc(Beam))) %>%
+  relocate(Rank, Team)
+
+datatable(xs.Beam, extensions = 'Buttons',
+          options = list(dom = 'Bfrtip', buttons = c('copy', 'csv', 'excel', 'pdf', 'print')))
+```
+
+### Floor Exercise
+
+```{r xs.floor}
+xs.Floor <- xs.results %>%
+  select(Athlete, Team, Floor) %>%
+  arrange(desc(Floor)) %>% 
+  mutate(Rank = dense_rank(desc(Floor))) %>%
+  relocate(Rank, Team)
+
+datatable(xs.Floor, extensions = 'Buttons',
+          options = list(dom = 'Bfrtip', buttons = c('copy', 'csv', 'excel', 'pdf', 'print')))
+```
+
+### All-Around
+
+```{r xs.AA}
+xs.AA <- xs.results %>%
+  select(Athlete, Team, All.Around) %>%
+  arrange(desc(All.Around)) %>% 
+  mutate(Rank = dense_rank(desc(All.Around))) %>%
+  relocate(Rank, Team)
+
+datatable(xs.AA, extensions = 'Buttons',
+          options = list(dom = 'Bfrtip', buttons = c('copy', 'csv', 'excel', 'pdf', 'print')))
+```
+
+### Team Score
+
+```{r, warning=FALSE}
+# calculate 
+xs.team.vt <- team.score(df = xs.results, event = "Vault")
+colnames(xs.team.vt)[2] <- "Vault"
+xs.team.bars <- team.score(df = xs.results, event = "Bars")
+colnames(xs.team.bars)[2] <- "Bars"
+xs.team.beam <- team.score(df = xs.results, event = "Beam")
+colnames(xs.team.beam)[2] <- "Beam"
+xs.team.fx <- team.score(df = xs.results, event = "Floor")
+colnames(xs.team.fx)[2] <- "Floor"
+
+xs.team.score <- merge.data.frame(xs.team.vt, xs.team.bars) %>% 
+  merge.data.frame(., xs.team.beam) %>%
+  merge.data.frame(., xs.team.fx) %>%
+  mutate(Team.Score = rowSums(across(where(is.numeric)))) %>%
+  mutate(Rank = dense_rank(desc(Team.Score))) %>%
+  arrange(Rank) %>%
+  relocate(Rank, Team, Team.Score)
+
+datatable(xs.team.score, extensions = 'Buttons',
+          options = list(dom = 'Bfrtip', buttons = c('copy', 'csv', 'excel', 'pdf', 'print')))
+
+
+```
+
+
+## Xcel Platinum {.tabset .tabset-fade}
+
+### Raw Results
+
+```{r}
+# read in data
+xp.results <- read.csv(here::here("data","Platinum-results.csv"))
+
+datatable(xp.results, extensions = 'Buttons',
+          options = list(dom = 'Bfrtip', buttons = c('copy', 'csv', 'excel', 'pdf', 'print')))
+```
+
+### Vault
+
+```{r xp.vault}
+xp.vault <- xp.results %>%
+  select(Athlete, Team, Vault) %>%
+  arrange(desc(Vault)) %>% 
+  mutate(Rank = dense_rank(desc(Vault))) %>%
+  relocate(Rank, Team)
+
+datatable(xp.vault, extensions = 'Buttons',
+          options = list(dom = 'Bfrtip', buttons = c('copy', 'csv', 'excel', 'pdf', 'print')))
+```
+
+### Uneven Bars
+
+```{r xp.bars}
+xp.bars <- xp.results %>%
+  select(Athlete, Team, Bars) %>%
+  arrange(desc(Bars)) %>% 
+  mutate(Rank = dense_rank(desc(Bars))) %>%
+  relocate(Rank, Team)
+
+datatable(xp.bars, extensions = 'Buttons',
+          options = list(dom = 'Bfrtip', buttons = c('copy', 'csv', 'excel', 'pdf', 'print')))
+```
+
+### Balance Beam
+
+```{r xp.beam}
+xp.Beam <- xp.results %>%
+  select(Athlete, Team, Beam) %>%
+  arrange(desc(Beam)) %>% 
+  mutate(Rank = dense_rank(desc(Beam))) %>%
+  relocate(Rank, Team)
+
+datatable(xp.Beam, extensions = 'Buttons',
+          options = list(dom = 'Bfrtip', buttons = c('copy', 'csv', 'excel', 'pdf', 'print')))
+```
+
+### Floor Exercise
+
+```{r xp.floor}
+xp.Floor <- xp.results %>%
+  select(Athlete, Team, Floor) %>%
+  arrange(desc(Floor)) %>% 
+  mutate(Rank = dense_rank(desc(Floor))) %>%
+  relocate(Rank, Team)
+
+datatable(xp.Floor, extensions = 'Buttons',
+          options = list(dom = 'Bfrtip', buttons = c('copy', 'csv', 'excel', 'pdf', 'print')))
+```
+
+### All-Around
+
+```{r xp.AA}
+xp.AA <- xp.results %>%
+  select(Athlete, Team, All.Around) %>%
+  arrange(desc(All.Around)) %>% 
+  mutate(Rank = dense_rank(desc(All.Around))) %>%
+  relocate(Rank, Team)
+
+datatable(xp.AA, extensions = 'Buttons',
+          options = list(dom = 'Bfrtip', buttons = c('copy', 'csv', 'excel', 'pdf', 'print')))
+```
+
+### Team Score
+
+```{r, warning=FALSE}
+# calculate 
+xp.team.vt <- team.score(df = xp.results, event = "Vault")
+colnames(xp.team.vt)[2] <- "Vault"
+xp.team.bars <- team.score(df = xp.results, event = "Bars")
+colnames(xp.team.bars)[2] <- "Bars"
+xp.team.beam <- team.score(df = xp.results, event = "Beam")
+colnames(xp.team.beam)[2] <- "Beam"
+xp.team.fx <- team.score(df = xp.results, event = "Floor")
+colnames(xp.team.fx)[2] <- "Floor"
+
+xp.team.score <- merge.data.frame(xp.team.vt, xp.team.bars) %>% 
+  merge.data.frame(., xp.team.beam) %>%
+  merge.data.frame(., xp.team.fx) %>%
+  mutate(Team.Score = rowSums(across(where(is.numeric)))) %>%
+  mutate(Rank = dense_rank(desc(Team.Score))) %>%
+  arrange(Rank) %>%
+  relocate(Rank, Team, Team.Score)
+
+datatable(xp.team.score, extensions = 'Buttons',
+          options = list(dom = 'Bfrtip', buttons = c('copy', 'csv', 'excel', 'pdf', 'print')))
+
+
+```
+
+## Level 8 {.tabset .tabset-fade}
+
+### Raw Results
+
+```{r}
+# read in data
+l8.results <- read.csv(here::here("data","Level-8-results.csv"))
+
+datatable(l8.results, extensions = 'Buttons',
+          options = list(dom = 'Bfrtip', buttons = c('copy', 'csv', 'excel', 'pdf', 'print')))
+```
+
+### Vault
+
+```{r l8.vault}
+l8.vault <- l8.results %>%
+  select(Athlete, Team, Vault) %>%
+  arrange(desc(Vault)) %>% 
+  mutate(Rank = dense_rank(desc(Vault))) %>%
+  relocate(Rank, Team)
+
+datatable(l8.vault, extensions = 'Buttons',
+          options = list(dom = 'Bfrtip', buttons = c('copy', 'csv', 'excel', 'pdf', 'print')))
+```
+
+### Uneven Bars
+
+```{r l8.bars}
+l8.bars <- l8.results %>%
+  select(Athlete, Team, Bars) %>%
+  arrange(desc(Bars)) %>% 
+  mutate(Rank = dense_rank(desc(Bars))) %>%
+  relocate(Rank, Team)
+
+datatable(l8.bars, extensions = 'Buttons',
+          options = list(dom = 'Bfrtip', buttons = c('copy', 'csv', 'excel', 'pdf', 'print')))
+```
+
+### Balance Beam
+
+```{r l8.beam}
+l8.Beam <- l8.results %>%
+  select(Athlete, Team, Beam) %>%
+  arrange(desc(Beam)) %>% 
+  mutate(Rank = dense_rank(desc(Beam))) %>%
+  relocate(Rank, Team)
+
+datatable(l8.Beam, extensions = 'Buttons',
+          options = list(dom = 'Bfrtip', buttons = c('copy', 'csv', 'excel', 'pdf', 'print')))
+```
+
+### Floor Exercise
+
+```{r l8.floor}
+l8.Floor <- l8.results %>%
+  select(Athlete, Team, Floor) %>%
+  arrange(desc(Floor)) %>% 
+  mutate(Rank = dense_rank(desc(Floor))) %>%
+  relocate(Rank, Team)
+
+datatable(l8.Floor, extensions = 'Buttons',
+          options = list(dom = 'Bfrtip', buttons = c('copy', 'csv', 'excel', 'pdf', 'print')))
+```
+
+### All-Around
+
+```{r l8.AA}
+l8.AA <- l8.results %>%
+  select(Athlete, Team, All.Around) %>%
+  arrange(desc(All.Around)) %>% 
+  mutate(Rank = dense_rank(desc(All.Around))) %>%
+  relocate(Rank, Team)
+
+datatable(l8.AA, extensions = 'Buttons',
+          options = list(dom = 'Bfrtip', buttons = c('copy', 'csv', 'excel', 'pdf', 'print')))
+```
+
+### Team Score
+
+```{r, warning=FALSE}
+# calculate 
+l8.team.vt <- team.score(df = l8.results, event = "Vault")
+colnames(l8.team.vt)[2] <- "Vault"
+l8.team.bars <- team.score(df = l8.results, event = "Bars")
+colnames(l8.team.bars)[2] <- "Bars"
+l8.team.beam <- team.score(df = l8.results, event = "Beam")
+colnames(l8.team.beam)[2] <- "Beam"
+l8.team.fx <- team.score(df = l8.results, event = "Floor")
+colnames(l8.team.fx)[2] <- "Floor"
+
+l8.team.score <- merge.data.frame(l8.team.vt, l8.team.bars) %>% 
+  merge.data.frame(., l8.team.beam) %>%
+  merge.data.frame(., l8.team.fx) %>%
+  mutate(Team.Score = rowSums(across(where(is.numeric)))) %>%
+  mutate(Rank = dense_rank(desc(Team.Score))) %>%
+  arrange(Rank) %>%
+  relocate(Rank, Team, Team.Score)
+
+datatable(l8.team.score, extensions = 'Buttons',
+          options = list(dom = 'Bfrtip', buttons = c('copy', 'csv', 'excel', 'pdf', 'print')))
+
+```
