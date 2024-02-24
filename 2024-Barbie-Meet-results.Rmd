@@ -1,5 +1,5 @@
 ---
-title: "The Sky's the Limit - A Barbie Themed Adult Gymastics Meet"
+title: "The Sky's the Limit - A Barbie Themed Adult Gymnastics Meet"
 author: "Dana Gibbon"
 date: "`r Sys.Date()`"
 output: 
